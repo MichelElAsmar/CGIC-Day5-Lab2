@@ -1,0 +1,152 @@
+html {
+  font-size: 14px;
+  font-family: "Poppins" !important;
+}
+/*   
+@font-face {
+    font-family: "Maax";
+    src: url("/fonts/Maax-Regular.otf");
+}
+*/
+@media (min-width: 768px) {
+  html {
+    font-size: 16px;
+  }
+}
+
+html {
+  position: relative;
+  min-height: 100%;
+}
+
+body {
+  margin-bottom: 60px;
+  overflow-x: hidden;
+}
+
+.navbar-logo {
+    height: 30px !important;
+    width: 110px !important;
+}
+
+.btn-primary {
+    background-color: #fff;
+    font-family: "Poppins";
+    border: none;
+    color: #3b1e7d;
+}
+
+    .btn-primary:hover {
+        background: rgb(26,112,87);
+        background: linear-gradient(144deg, rgba(26,112,87,1) 0%, rgba(30,107,139,1) 47%, rgba(64,20,75,1) 100%);
+    }
+
+    .btn-primary:focus {
+        background: rgb(26,112,87);
+        background: linear-gradient(144deg, rgba(26,112,87,1) 0%, rgba(30,107,139,1) 47%, rgba(64,20,75,1) 100%);
+        box-shadow: none;
+    }
+
+h1 {
+    color: #fff !important;
+}
+
+input:focus {
+    outline: none;
+}
+
+textarea:focus {
+    outline: none;
+}
+
+.trainable-nav {
+    background-color: rgb(26, 50, 96) !important;
+}
+
+    .trainable-nav li {
+        margin-left: 20px;
+    }
+
+        .trainable-nav li a {
+            color: #fff !important;
+            font-family: "Poppins";
+        }
+
+.navbar-logo {
+    width: 200px;
+    height: 50px;
+    object-fit: cover;
+}
+
+.pattern {
+    background-image: url('/img/trainable-background.jpg');
+    background-size: cover;
+}
+
+.main-container {
+    margin-top: 80px;
+    font-family: "Poppins";
+}
+
+.prompt-box {
+    width: 90%;
+    border-radius: 15px;
+    padding: 20px;
+    font-family: "Poppins";
+    box-shadow: 14px 13px 39px 1px rgba(0,0,0,0.79);
+    -webkit-box-shadow: 14px 13px 39px 1px rgba(0,0,0,0.79);
+    -moz-box-shadow: 14px 13px 39px 1px rgba(0,0,0,0.79);
+}
+
+.response-section {
+    background-color: rgb(26, 50, 96) !important;
+    color: #fff !important;
+    border-radius: 15px;
+    padding: 20px;
+    margin-top: 50px;
+    width: 90%;
+    text-align: left !important;
+    padding: 30px 20px 30px 20px;
+    font-family: "Poppins";
+    background: rgb(31,149,114);
+    background: linear-gradient(144deg, rgba(31,149,114,1) 0%, rgba(30,107,139,1) 47%, rgba(129,23,54,1) 100%);
+    box-shadow: 14px 13px 39px 1px rgba(0,0,0,0.79);
+    -webkit-box-shadow: 14px 13px 39px 1px rgba(0,0,0,0.79);
+    -moz-box-shadow: 14px 13px 39px 1px rgba(0,0,0,0.79);
+}
+
+.response-img {
+    margin: 10px;
+}
+
+.optional_input {
+    width: 20%;
+    padding: .375rem .75rem;
+}
+
+.loading-spinner {
+    height: 50px;
+    display: none;
+    margin: auto;
+}
+
+
+
+@media screen and (max-width: 950px) {
+    .navbar-logo-wrapper {
+        display: none;
+    }
+}
+
+@media screen and (max-width: 500px) {
+    #chat-bot-box {
+        width: 90% !important;
+    }
+}
+
+
+/*
+.btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
+  box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
+}
+*/

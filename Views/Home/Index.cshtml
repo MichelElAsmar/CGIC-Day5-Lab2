@@ -1,0 +1,185 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+}
+
+<div class="text-center">
+    @if (ViewBag.Mode == "normal"){
+        <h1 class="display-4">Personal GPT</h1>
+    }
+
+    else if (ViewBag.Mode == "impersonate"){
+        <h1 class="display-4">Impersonator</h1>
+    }  
+    @*Add the new mode titles below *@
+
+    else if (ViewBag.Mode == "image"){
+        <h1 class="display-4">Image Generator</h1>
+    } 
+
+    else if (ViewBag.Mode == "chatgpt"){
+        <h1 class="display-4">ChatGPT</h1>
+    } 
+
+    else
+    {
+        <h1 class="display-4">Personal GPT</h1>
+    }
+    <textarea placeholder="Ask me Anything..." id="prompt" class="prompt-box" spellcheck="false"></textarea>
+    <br />
+    @if (ViewBag.Mode == "impersonate"){
+        <input type="text" spellcheck="false" placeholder="Elon Musk" class="optional_input" id="impersonator_character"/>
+    } 
+    @* Add the language textbox below *@
+
+    else if (ViewBag.Mode == "image"){
+        <input type="number" min="1" max="5" spellcheck="false" placeholder="Number of Images" class="optional_input" id="nbImages"/>
+    } 
+    
+    <button class="btn btn-primary" id="submit">
+        <i class="fa-solid fa-paper-plane"></i>
+         Ask
+     </button>
+
+    <div class="container response-section">
+
+        <img class="loading-spinner" src="~/img/spinner.gif" />
+
+        @if (ViewBag.Mode == "normal")
+        {
+            <div id="gpt_response">Hello what can i help you with?</div>
+        }
+        else if (ViewBag.Mode == "impersonate"){
+            <div id="gpt_response">I'm Elon Musk, what do you need?</div>
+        } 
+        @* Add Mode Responses below  *@
+
+        else if (ViewBag.Mode == "image"){
+            <div id="gpt_response">Give me a description of an image (for example: monkey on a rocket)</div>
+        } 
+        else if (ViewBag.Mode == "chatgpt"){
+            <div id="gpt_response">I'm ChatGPT, what can i help you with</div>
+        }
+        else
+        {
+            <div id="gpt_response">Hello what can i help you with?</div>
+        }
+    </div>
+
+</div>
+
+
+<script>
+    $(document).ready(function(){
+        const textarea = document.getElementById("prompt");
+        const bot_input = document.getElementById("chat-bot-input");
+
+        textarea.addEventListener("keydown", function(event) {
+            if (event.keyCode === 13) {
+                event.preventDefault();
+                SendPrompt('mainChat');
+            }
+        });
+
+        bot_input.addEventListener("keydown", function(event) {
+            if (event.keyCode === 13) {
+                event.preventDefault();
+                SendPrompt('chatbot');
+                $('#chat-bot-input').val("");
+            }
+        });
+        
+        $('#submit').on('click', function(){
+            SendPrompt('mainChat');
+        });
+    })
+
+
+    function SendPrompt(sender){
+
+        if (sender == "mainChat"){
+            SendPromptMain();
+        } 
+        else if (sender == "chatbot"){
+            SendPromptChatBot();
+        }
+    }
+
+    function SendPromptMain(){
+        prompt = $('#prompt').val();
+        impersonator = $('#impersonator_character').val();
+        nbImages = $('#nbImages').val();
+        
+        // get 'toLang' value below
+
+        $('#prompt').val("");
+        $('#gpt_response').empty();
+        $('#gpt_response').css('text-align', 'center');
+        $('.loading-spinner').css('display', 'block');
+
+        return $.ajax({
+            url: "/Home/CallGPT",
+            type: "POST",
+            data: { prompt: prompt, mode: "@ViewBag.Mode", impersonator: impersonator, nbImages: nbImages }, // Add 'toLang' parameter in this line
+            dataType: "json",
+            async: true,
+            success: function (result) {
+            // Handle the success result here
+            GptResponse(result);
+            },
+            error: function (xhr, textStatus, errorThrown) {
+            // Handle the error here
+            console.log(textStatus);
+            }
+        });
+    }
+
+    function GptResponse(response){
+        $('.loading-spinner').css('display', 'none');
+
+        if ("@ViewBag.Mode" == "image"){
+            if (response != "Unfortunately i wasn't able to"){
+                imgs = response.split(',');
+
+                console.log(imgs);
+
+                $('#gpt_response').empty();
+                for (i = 0; i < imgs.length; i++){
+                    console.log(imgs[i]);
+                    $('#gpt_response').append("<img class='response-img' src='" + imgs[i] + "' />");
+                }
+            }
+        }
+        else{
+            $('#gpt_response').css('text-align', 'left');
+            GenerateText(response);
+        }
+    }
+
+    function GenerateText(text){
+        const words = text.split(" ");
+        let wordIndex = 0;
+
+        const response_box = document.getElementById('gpt_response');
+
+        const interval = setInterval(() => {
+            if (wordIndex < words.length) {
+                response_box.innerHTML += words[wordIndex] + ' ';
+                wordIndex++;
+
+                const intervalTime = Math.floor(Math.random() * 2000) + 1000;
+
+                setTimeout(() => {
+                    if (wordIndex < words.length) {
+                        response_box.innerHTML += words[wordIndex] + ' ';
+                        wordIndex++;
+                    }
+                }, intervalTime);
+            } 
+            else 
+            {
+                clearInterval(interval);
+            }
+        }, 100);
+
+    }
+    </script>

@@ -1,0 +1,3 @@
+﻿<Project>
+  <Import Project="..\build\OpenAI_GPT.props" />
+</Project>
